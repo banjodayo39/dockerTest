@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  nginx:
+    container_name: nginx-app
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - web
+  web:
+    container_name: my-flask
+    build: .
+    # command: gunicorn -b 0.0.0.0:8000 - app:app
+    # Use volumes to create storage containers.
+    volumes:
+       - app_data:/app
+    # Place your environment variables here (i.e. DATABASE_HOST=db)
+    environment:
+      - DATABASE_HOST=db
+
+#Place your persistant volumes here 
+volumes:
+   app_data:
